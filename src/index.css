@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@media print {
+  /* Force Tailwind colors and backgrounds to print as seen on screen */
+  .bg-blue-900 {
+    background-color: #1e3a8a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .text-blue-900 {
+    color: #1e3a8a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .bg-white {
+    background-color: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .text-white {
+    color: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .border-blue-900 {
+    border-color: #1e3a8a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* Optional: Remove box-shadows or other effects if needed */
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+  .cards-print-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .school-card {
+    width: 14cm !important;
+    box-sizing: border-box;
+    page-break-inside: avoid;
+  }
+}
