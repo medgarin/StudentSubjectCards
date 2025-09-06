@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { StudentFormStep1 } from "./StudentFormStep1";
+import { StudentFormStep2 } from "./StudentFormStep2";
+import { StudentFormStep3 } from "./StudentFormStep3";
+import type { CardVariant } from "./Cards/Card";
 
 export interface StudentFormData {
   firstName: string;
@@ -9,6 +13,9 @@ export interface StudentFormData {
   listNumber: string;
   subjects: string[];
   numberOfTags: number;
+  labelSize: number;
+  labelColor: string;
+  cardType: CardVariant;
 }
 
 interface StudentFormProps {
@@ -16,16 +23,20 @@ interface StudentFormProps {
 }
 
 export const StudentForm = ({ onSubmit }: StudentFormProps) => {
-  const [form, setForm] = useState<StudentFormData>({
+  const [step, setStep] = useState(1);
+  const [form, setForm] = useState<Omit<StudentFormData, "cardType">>({
     firstName: "",
     lastName: "",
     grade: "",
     section: "",
     group: "",
     listNumber: "",
+    labelSize: 14,
     subjects: [""],
     numberOfTags: 1,
+    labelColor: "#1c398e",
   });
+  const [cardType, setCardType] = useState<CardVariant>("classic");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -51,118 +62,57 @@ export const StudentForm = ({ onSubmit }: StudentFormProps) => {
     });
   };
 
+  const goToStep = (nextStep: number) => setStep(nextStep);
+
+  const handleLabelSizeChange = (value: number) => {
+    setForm((prev) => ({ ...prev, labelSize: value }));
+  };
+
+  const handleLabelColorChange = (value: string) => {
+    setForm((prev) => ({ ...prev, labelColor: value }));
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({
       ...form,
       numberOfTags: Number(form.numberOfTags),
       subjects: form.subjects.filter((s) => s.trim()),
+      cardType,
     });
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-8 space-y-4 print:hidden">
-      <h2 className="text-lg font-bold">Datos del Estudiante</h2>
-      <div className="flex gap-4">
-        <input
-          className="border p-2 flex-1"
-          name="firstName"
-          placeholder="Nombre(s)"
-          value={form.firstName}
+    <div className="mb-8 space-y-6 print:hidden">
+      {step === 1 && (
+        <StudentFormStep1
+          form={form}
           onChange={handleChange}
-          required
+          onSubjectChange={handleSubjectChange}
+          addSubject={addSubject}
+          removeSubject={removeSubject}
+          onNext={() => goToStep(2)}
         />
-        <input
-          className="border p-2 flex-1"
-          name="lastName"
-          placeholder="Apellidos"
-          value={form.lastName}
-          onChange={handleChange}
-          required
+      )}
+      {step === 2 && (
+        <StudentFormStep2
+          cardType={cardType}
+          setCardType={setCardType}
+          form={form}
+          onNext={() => goToStep(3)}
+          onBack={() => goToStep(1)}
         />
-      </div>
-      <div className="flex gap-4">
-        <input
-          className="border p-2 flex-1"
-          name="section"
-          value={form.section}
-          onChange={handleChange}
-          placeholder={`Sección`}
-          required
+      )}
+      {step === 3 && (
+        <StudentFormStep3
+          form={form}
+          cardType={cardType}
+          onLabelSizeChange={handleLabelSizeChange}
+          onLabelColorChange={handleLabelColorChange}
+          onSubmit={handleSubmit}
+          onBack={() => goToStep(2)}
         />
-
-        <input
-          className="border p-2 w-1/3"
-          name="grade"
-          placeholder="Grado"
-          value={form.grade}
-          onChange={handleChange}
-          required
-        />
-        <input
-          className="border p-2 w-1/3"
-          name="group"
-          placeholder="Grupo"
-          value={form.group}
-          onChange={handleChange}
-        />
-        <input
-          className="border p-2 w-1/3"
-          name="listNumber"
-          placeholder="N° Lista"
-          value={form.listNumber}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label className="block font-bold mb-1">Materias</label>
-        {form.subjects.map((subject, idx) => (
-          <div key={idx} className="flex gap-2 mb-2">
-            <input
-              className="border p-2 flex-1"
-              value={subject}
-              onChange={(e) => handleSubjectChange(idx, e.target.value)}
-              placeholder={`Materia #${idx + 1}`}
-              required={idx === 0}
-            />
-            {form.subjects.length > 1 && (
-              <button
-                type="button"
-                onClick={() => removeSubject(idx)}
-                className="text-red-500"
-              >
-                Eliminar
-              </button>
-            )}
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={addSubject}
-          className="text-blue-700 underline"
-        >
-          Agregar materia
-        </button>
-      </div>
-      <div>
-        <label className="block font-bold mb-1">
-          Cantidad de etiquetas con solo nombre
-        </label>
-        <input
-          className="border p-2 w-32"
-          type="number"
-          name="numberOfTags"
-          min={1}
-          value={form.numberOfTags}
-          onChange={handleChange}
-        />
-      </div>
-      <button
-        type="submit"
-        className="bg-blue-900 text-white px-4 py-2 rounded"
-      >
-        Generar etiquetas
-      </button>
-    </form>
+      )}
+    </div>
   );
 };

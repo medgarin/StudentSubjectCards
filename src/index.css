@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
 @media print {
-  /* Force Tailwind colors and backgrounds to print as seen on screen */
+  #MainApp,
+  #ContentApp {
+    background-color: #fff !important;
+  }
   .bg-blue-900 {
     background-color: #1e3a8a !important;
     -webkit-print-color-adjust: exact;
@@ -46,7 +49,7 @@
     box-sizing: border-box;
   }
   .school-card {
-    width: 14cm !important;
+    /* El ancho ahora es dinámico por style inline */
     box-sizing: border-box;
     page-break-inside: avoid;
   }
