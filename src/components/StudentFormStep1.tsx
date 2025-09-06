@@ -22,7 +22,7 @@ export const StudentFormStep1 = ({
     <h2 className="text-2xl font-bold text-cyan-400 tracking-widest mb-6 text-center drop-shadow-lg">
       Datos del Estudiante
     </h2>
-    <div className="flex gap-4">
+    <div className="flex gap-4 md:flex-row flex-col">
       <input
         className="bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 text-gray-100 placeholder-gray-400 p-3 flex-1 rounded-lg shadow-inner transition-all duration-200 outline-none"
         name="firstName"
@@ -40,7 +40,7 @@ export const StudentFormStep1 = ({
         required
       />
     </div>
-    <div className="flex gap-4">
+    <div className="flex gap-4 md:flex-row flex-col">
       <input
         className="bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 text-gray-100 placeholder-gray-400 p-3 flex-1 rounded-lg shadow-inner transition-all duration-200 outline-none"
         name="section"
@@ -50,7 +50,7 @@ export const StudentFormStep1 = ({
         required
       />
       <input
-        className="bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 text-gray-100 placeholder-gray-400 p-3 w-1/3 rounded-lg shadow-inner transition-all duration-200 outline-none"
+        className="bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 text-gray-100 placeholder-gray-400 p-3 md:w-1/3 rounded-lg shadow-inner transition-all duration-200 outline-none"
         name="grade"
         placeholder="Grado"
         value={form.grade}
@@ -58,14 +58,14 @@ export const StudentFormStep1 = ({
         required
       />
       <input
-        className="bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 text-gray-100 placeholder-gray-400 p-3 w-1/3 rounded-lg shadow-inner transition-all duration-200 outline-none"
+        className="bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 text-gray-100 placeholder-gray-400 p-3 md:w-1/3 rounded-lg shadow-inner transition-all duration-200 outline-none"
         name="group"
         placeholder="Grupo"
         value={form.group}
         onChange={onChange}
       />
       <input
-        className="bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 text-gray-100 placeholder-gray-400 p-3 w-1/3 rounded-lg shadow-inner transition-all duration-200 outline-none"
+        className="bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 text-gray-100 placeholder-gray-400 p-3 md:w-1/3 rounded-lg shadow-inner transition-all duration-200 outline-none"
         name="listNumber"
         placeholder="N° Lista"
         value={form.listNumber}
